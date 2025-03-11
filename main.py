@@ -5,6 +5,8 @@
 import pygame # type: ignore
 from constants import *
 from player import Player  #importing Player Class from player.py file
+from asteroid import Asteroid
+from asteroidfield import AsteroidField
 
 def main() :
     pygame.init()
@@ -22,6 +24,11 @@ def main() :
     drawable = pygame.sprite.Group()
     Player.containers = (updateable, drawable)
     player = Player(x=SCREEN_WIDTH / 2 , y=SCREEN_HEIGHT / 2) #initializing player in the center of the screen
+    asteroids = pygame.sprite.Group()
+    Asteroid.containers = (updateable, drawable, asteroids)
+    AsteroidField.containers = (updateable)
+    asteroid_field = AsteroidField() #Creating the asteroid instance
+    
     
 
     while True :
@@ -39,7 +46,6 @@ def main() :
         pygame.display.flip()
         #limit FPS to 60
         dt = (Clock.tick(60) / 1000)
-    
-    
+
 if __name__ == "__main__" :
     main()
