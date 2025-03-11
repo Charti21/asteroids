@@ -4,26 +4,40 @@
 
 import pygame # type: ignore
 from constants import *
+from player import Player  #importing Player Class from player.py file
 
 def main() :
     pygame.init()
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+    Clock = pygame.time.Clock() #Create a Clock Instance
+    dt = 0
+
     print("Starting Asteroids!")
     print (f"Screen width: {SCREEN_WIDTH}")
     print (f"Screen height: {SCREEN_HEIGHT}")
-    from player import Player #importing Player Class from player.py file to be drawn onto screen.
-    player = Player(x=SCREEN_WIDTH / 2 , y= SCREEN_HEIGHT / 2) #initializing player in the center of the screen
-    Clock = pygame.time.Clock() #Create a Clock Instance
-    dt = 0
+    
+    
+   
+    updateable = pygame.sprite.Group()
+    drawable = pygame.sprite.Group()
+    Player.containers = (updateable, drawable)
+    player = Player(x=SCREEN_WIDTH / 2 , y=SCREEN_HEIGHT / 2) #initializing player in the center of the screen
+    
+
     while True :
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 return
+        
         screen.fill((0,0,0))
-        player.draw(screen)
-        player.update(dt)
+        updateable.update(dt)
+        
+
+        for item in drawable :
+            item.draw(screen)
+        
         pygame.display.flip()
-        Clock.tick(60)
+        #limit FPS to 60
         dt = (Clock.tick(60) / 1000)
     
     
