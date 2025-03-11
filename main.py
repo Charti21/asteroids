@@ -2,7 +2,7 @@
 # the open source pygame library
 # throughout the file
 
-import pygame
+import pygame # type: ignore
 from constants import *
 
 def main() :
@@ -11,6 +11,8 @@ def main() :
     print("Starting Asteroids!")
     print (f"Screen width: {SCREEN_WIDTH}")
     print (f"Screen height: {SCREEN_HEIGHT}")
+    from player import Player #importing Player Class from player.py file to be drawn onto screen.
+    player = Player(x=SCREEN_WIDTH / 2 , y= SCREEN_HEIGHT / 2) #initializing player in the center of the screen
     Clock = pygame.time.Clock() #Create a Clock Instance
     dt = 0
     while True :
@@ -18,6 +20,7 @@ def main() :
             if event.type == pygame.QUIT:
                 return
         screen.fill((0,0,0))
+        player.draw(screen)
         pygame.display.flip()
         Clock.tick(60)
         dt = (Clock.tick(60) / 1000)
