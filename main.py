@@ -3,10 +3,12 @@
 # throughout the file
 
 import pygame # type: ignore
+import sys
 from constants import *
 from player import Player  #importing Player Class from player.py file
 from asteroid import Asteroid
 from asteroidfield import AsteroidField
+from circleshape import CircleShape
 
 def main() :
     pygame.init()
@@ -38,7 +40,11 @@ def main() :
         
         screen.fill((0,0,0))
         updateable.update(dt)
-        
+
+        for a in asteroids :
+            if player.collision(a) :   #Use player and check for collision between player and asteroid
+                print ("Game over!")   
+                sys.exit()   #exit the program
 
         for item in drawable :
             item.draw(screen)
