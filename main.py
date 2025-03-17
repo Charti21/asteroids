@@ -5,10 +5,11 @@
 import pygame # type: ignore
 import sys
 from constants import *
-from player import Player  #importing Player Class from player.py file
+from player import Player  #importing Player Class 
 from asteroid import Asteroid
+from asteroid import Shot
 from asteroidfield import AsteroidField
-from circleshape import CircleShape
+
 
 def main() :
     pygame.init()
@@ -24,12 +25,21 @@ def main() :
    
     updateable = pygame.sprite.Group()
     drawable = pygame.sprite.Group()
-    Player.containers = (updateable, drawable)
-    player = Player(x=SCREEN_WIDTH / 2 , y=SCREEN_HEIGHT / 2) #initializing player in the center of the screen
     asteroids = pygame.sprite.Group()
+    shots = pygame.sprite.Group()
+
     Asteroid.containers = (updateable, drawable, asteroids)
     AsteroidField.containers = (updateable)
-    asteroid_field = AsteroidField() #Creating the asteroid instance
+    asteroid_field = AsteroidField() #Creating the asteroid instance, enabling asteroids to spawn on edges of screen
+
+    Shot.containers = (updateable, shots, drawable) #creating containers for shot method
+
+    Player.containers = (updateable, drawable)
+    player = Player(x=SCREEN_WIDTH / 2 , y=SCREEN_HEIGHT / 2) #initializing player in the center of the screen
+    
+    
+    
+    
     
     
 
@@ -45,9 +55,16 @@ def main() :
             if player.collision(a) :   #Use player and check for collision between player and asteroid
                 print ("Game over!")   
                 sys.exit()   #exit the program
+            for bullet in shots:
+                if a.collision(bullet) :
+                    a.kill()
+                    bullet.kill()
+
+    
 
         for item in drawable :
             item.draw(screen)
+
         
         pygame.display.flip()
         #limit FPS to 60

@@ -1,10 +1,10 @@
 import pygame # type: ignore
-import random
-from asteroid import Asteroid
+import random #for spawning asteroids
+from asteroid import Asteroid 
 from constants import *
 
 
-class AsteroidField(pygame.sprite.Sprite):
+class AsteroidField(pygame.sprite.Sprite):      #Spawns Asteroids on Edge of screen# Defining edges of spawns
     edges = [
         [
             pygame.Vector2(1, 0),
