@@ -9,9 +9,9 @@ class Player(CircleShape) :
         super().__init__(x,y,PLAYER_RADIUS)
         self.rotation = 0
         self.timer = 0
-    # in the player class
+    
 
-    def triangle(self):
+    def triangle(self):    #Creating triangular picture on screen, although hitbox is going to be circular.
         forward = pygame.Vector2(0, 1).rotate(self.rotation)
         right = pygame.Vector2(0, 1).rotate(self.rotation + 90) * self.radius / 1.5
         a = self.position + forward * self.radius
@@ -28,24 +28,20 @@ class Player(CircleShape) :
     def update(self, dt):
         keys = pygame.key.get_pressed()
         self.timer -= dt
-        if keys[pygame.K_a]:
+        if keys[pygame.K_a]:      #If a is pressed rotate in a negative (counter-clockwise)direction
             self.rotate(-dt)
-        if keys[pygame.K_d]:
+        if keys[pygame.K_d]:      # If d is pressed rotate in a positive (clockwise) direction
             self.rotate(dt)
-        if keys[pygame.K_w]:
+        if keys[pygame.K_w]:      #if w is pressed move forward
             self.move(dt)
-        if keys[pygame.K_s]:
+        if keys[pygame.K_s]:      #if s is pressed move backward
             self.move(-dt)
-        if keys[pygame.K_SPACE] :
-            if self.timer <= 0 :
+        if keys[pygame.K_SPACE] :   #if space bar is pressed call the shoot method provided in asteroid.py file, which should create bullets spawning from player. 
+            if self.timer <= 0 :    #The amount of shots fired per second is limited by the constant provided as player_shoot_cooldown
                 self.shoot()
                 self.timer = PLAYER_SHOOT_COOLDOWN
                 
             
-                
-            
-
-
     def move(self, dt) :
         forward = pygame.Vector2(0, 1).rotate(self.rotation)
         self.position += forward * PLAYER_SPEED * dt
